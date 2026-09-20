@@ -1,6 +1,6 @@
 # PRD 2 — Conversation engine: simulated user, agent runner, tool mocking, concurrency + budget
 
-Status: Draft · Depends on: PRD 1 · Blocks: PRD 3, 4
+Status: Done · Depends on: PRD 1 · Blocks: PRD 3, 4
 
 ## Summary
 
@@ -47,13 +47,19 @@ class AgentTurnResult(BaseModel):
 
 class AgentAdapter(Protocol):
     async def take_turn(
-        self, messages: list[dict], tools: list[ToolDef]
+        self, messages: list[dict], tools: list[ToolDef], executor: ToolMockExecutor
     ) -> AgentTurnResult: ...
 ```
 
+**Built, deviating from the sketch above in one way**: `take_turn` takes the scenario-bound
+`ToolMockExecutor` directly rather than a bare `scenario_id` the adapter would use to construct its
+own. The orchestrator is what knows the current scenario; handing the adapter a ready-to-call
+executor means every `AgentAdapter` implementation (the reference one, or someone's HTTP adapter)
+gets scenario-mocked tool execution for free instead of re-deriving it from an id.
+
 Anyone evaluating their own agent implements this once (in-process call, or an HTTP adapter that
 POSTs to their service). The repo ships `examples/reference_agent/agent.py`: a small single-call
-tool-loop implementation (calls the model, executes any tool calls via `ToolMockExecutor` itself
+tool-loop implementation (calls the model, executes any tool calls via the passed-in `executor`
 in a bounded internal loop, re-prompts with results, returns when the model stops calling tools)
 used for every scenario in the demo suite.
 
@@ -155,21 +161,35 @@ class TokenBudgetTracker:
 One `TokenBudgetTracker` instance is shared across an entire run (every scenario, every model call
 — agent, simulated user, and later the judge). The `CachedModelClient` from PRD 1 calls
 `tracker.add(...)` after every non-cached response (cache hits are free — this is the whole point
-of replay mode). The run driver:
+of replay mode).
+
+**Built, resolving a real gap the sketch above glossed over**: `agent` is a pre-built, opaque
+`AgentAdapter` — `run_suite` can't reach inside it to redirect its model calls through its own
+tracker after the fact. So `harness/run.py` splits construction from execution:
+`build_model_client(config)` builds the one cached, budget-tracked `ModelClient` up front and
+returns it (with its `TokenBudgetTracker`); the caller uses that *same instance* to construct
+their agent (`ReferenceAgent(model_client, ...)`, or an HTTP adapter that reports usage through it)
+*before* calling `run_suite(scenarios, agent, config, model_client, tracker)`. Skipping this and
+building an agent against a different client silently exempts that agent's calls from the budget.
 
 ```python
 # harness/run.py
-async def run_suite(scenarios: list[Scenario], agent: AgentAdapter, config: RunConfig) -> RunResult:
-    sem = asyncio.Semaphore(config.concurrency_limit)
-    tracker = TokenBudgetTracker(config.total_token_budget)
-    ...
-    # on BudgetExceeded: cancel outstanding tasks, mark unstarted/in-flight scenarios as
-    # `aborted`, and still return a RunResult so a report can be generated for what *did* run.
+model_client, tracker = build_model_client(config)
+agent = ReferenceAgent(model_client, model="gpt-4o-mini")
+result = await run_suite(scenarios, agent, config, model_client, tracker)
 ```
 
+Internally, `run_suite` reacts to a budget blowout via `asyncio.wait(pending, return_when=FIRST_EXCEPTION)`
+rather than awaiting each scenario's task in submission order — that ordering would only notice a
+failure once it happened to reach that specific task, by which point other already-runnable tasks
+could have raced ahead regardless. `asyncio.wait` narrows the window but a fully race-free abort
+isn't achievable (or worth achieving) when concurrent tasks complete near-instantly, as they can
+with cached/replayed responses — real model calls have enough latency that this is a non-issue in
+practice.
+
 A budget abort is not a crash: the run ends early, already-completed scenario transcripts are
-kept, in-flight ones are marked `aborted`, and `RunResult.aborted = True` is surfaced to the CLI
-(PRD 5) to set a distinct non-zero exit code from a normal gate failure.
+kept, in-flight and never-started ones are marked `aborted`, and `RunResult.aborted = True` is
+surfaced to the CLI (PRD 5) to set a distinct non-zero exit code from a normal gate failure.
 
 ### File/module layout
 

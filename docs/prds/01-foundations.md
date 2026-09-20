@@ -1,6 +1,6 @@
 # PRD 1 — Foundations: scenario schema, model-provider abstraction, cache/replay
 
-Status: Draft · Depends on: nothing · Blocks: PRDs 2-6
+Status: Done · Depends on: nothing · Blocks: PRDs 2-6
 
 ## Summary
 

@@ -5,8 +5,8 @@ status column as work lands.
 
 | # | PRD | Covers | Status |
 |---|-----|--------|--------|
-| 1 | [01-foundations.md](01-foundations.md) | Scenario schema, model-provider abstraction, deterministic cache/replay | Draft |
-| 2 | [02-conversation-engine.md](02-conversation-engine.md) | Simulated user, agent runner, tool mocking, concurrency + token budget | Draft |
+| 1 | [01-foundations.md](01-foundations.md) | Scenario schema, model-provider abstraction, deterministic cache/replay | Done |
+| 2 | [02-conversation-engine.md](02-conversation-engine.md) | Simulated user, agent runner, tool mocking, concurrency + token budget | Done |
 | 3 | [03-deterministic-scoring.md](03-deterministic-scoring.md) | Task completion, tool-call accuracy, efficiency metrics | Draft |
 | 4 | [04-judge-and-validation.md](04-judge-and-validation.md) | Groundedness rubric, LLM-as-judge, 50-label agreement study | Draft |
 | 5 | [05-gates-tracing-reporting-cli.md](05-gates-tracing-reporting-cli.md) | Baseline/regression gate, OpenTelemetry spans, report generator, `agent-eval` CLI | Draft |
