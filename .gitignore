@@ -16,3 +16,4 @@ data/raw/
 results/*.tmp
 .DS_Store
 .idea/
+.claude/
