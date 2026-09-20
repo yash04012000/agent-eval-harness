@@ -1,0 +1,32 @@
+id: schema_smoke
+intent: smoke_test
+description: >
+  Minimal scenario used only to exercise the scenario loader and orchestrator in tests --
+  not part of the demo suite's scored content.
+opening_message: "Hi, I want to check the status of my order."
+user_simulation:
+  mode: scripted
+  script:
+    - user: "My order id is A100."
+    - user: "Thanks, that's all I needed."
+tools:
+  - name: lookup_order
+    description: Look up an order by id.
+    parameters:
+      type: object
+      properties:
+        order_id:
+          type: string
+      required: [order_id]
+    responses:
+      '{"order_id": "A100"}':
+        status: shipped
+        eta_days: 2
+    default_response:
+      error: order_not_found
+expected_outcome:
+  resolution: resolved
+  required_tool_calls: [lookup_order]
+  forbidden_tool_calls: []
+  must_mention: ["shipped"]
+  must_not_mention: []
