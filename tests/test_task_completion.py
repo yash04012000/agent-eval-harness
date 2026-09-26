@@ -25,7 +25,7 @@ def _transcript(end_reason, turns=None, messages=None) -> Transcript:
     )
 
 
-def test_fully_passing_scenario():
+async def test_fully_passing_scenario():
     scenario = _scenario(
         required_tool_calls=["lookup_order"],
         must_mention=["shipped"],
@@ -42,24 +42,24 @@ def test_fully_passing_scenario():
         ],
     )
 
-    result = TaskCompletionMetric().score(transcript, scenario)
+    result = await TaskCompletionMetric().score(transcript, scenario)
 
     assert result.passed is True
     assert result.score == 1.0
     assert all(result.details.values())
 
 
-def test_missing_required_tool_call_fails():
+async def test_missing_required_tool_call_fails():
     scenario = _scenario(required_tool_calls=["lookup_order"])
     transcript = _transcript("goal_achieved", turns=[Turn(agent_message="Your order has shipped.")])
 
-    result = TaskCompletionMetric().score(transcript, scenario)
+    result = await TaskCompletionMetric().score(transcript, scenario)
 
     assert result.passed is False
     assert result.details["required_tool_calls"] is False
 
 
-def test_forbidden_tool_call_fails():
+async def test_forbidden_tool_call_fails():
     scenario = _scenario(forbidden_tool_calls=["delete_account"])
     transcript = _transcript(
         "goal_achieved",
@@ -71,37 +71,37 @@ def test_forbidden_tool_call_fails():
         ],
     )
 
-    result = TaskCompletionMetric().score(transcript, scenario)
+    result = await TaskCompletionMetric().score(transcript, scenario)
 
     assert result.details["forbidden_tool_calls"] is False
     assert result.passed is False
 
 
-def test_must_mention_fails_when_absent():
+async def test_must_mention_fails_when_absent():
     scenario = _scenario(must_mention=["refund"])
     transcript = _transcript("goal_achieved", turns=[Turn(agent_message="Your order has shipped.")])
 
-    result = TaskCompletionMetric().score(transcript, scenario)
+    result = await TaskCompletionMetric().score(transcript, scenario)
 
     assert result.details["must_mention"] is False
     assert result.passed is False
 
 
-def test_must_not_mention_fails_when_present():
+async def test_must_not_mention_fails_when_present():
     scenario = _scenario(must_not_mention=["password"])
     transcript = _transcript("goal_achieved", turns=[Turn(agent_message="Your password is reset.")])
 
-    result = TaskCompletionMetric().score(transcript, scenario)
+    result = await TaskCompletionMetric().score(transcript, scenario)
 
     assert result.details["must_not_mention"] is False
     assert result.passed is False
 
 
-def test_resolution_mismatch_fails():
+async def test_resolution_mismatch_fails():
     scenario = _scenario()  # expects "resolved"
     transcript = _transcript("max_turns", turns=[Turn(agent_message="still working on it")])
 
-    result = TaskCompletionMetric().score(transcript, scenario)
+    result = await TaskCompletionMetric().score(transcript, scenario)
 
     assert result.details["resolution"] is False
     assert result.passed is False

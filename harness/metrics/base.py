@@ -18,6 +18,11 @@ class MetricResult(BaseModel):
 
 
 class Metric(Protocol):
+    """Every scorer -- including the judge-backed groundedness metric (PRD 4) -- is async, so the
+    run driver can `await` all four uniformly without special-casing the one that makes a model
+    call.
+    """
+
     name: str
 
-    def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult: ...
+    async def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult: ...

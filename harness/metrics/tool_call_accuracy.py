@@ -29,7 +29,7 @@ def classify(call: ToolCallRecord) -> Classification:
 class ToolCallAccuracyMetric:
     name = "tool_call_accuracy"
 
-    def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult:
+    async def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult:
         calls = all_tool_calls(transcript)
         if not calls:
             return MetricResult(

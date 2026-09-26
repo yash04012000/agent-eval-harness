@@ -61,22 +61,22 @@ def test_free_model_costs_nothing():
     assert detail.cost_usd == 0.0
 
 
-def test_score_at_target_turns_is_one():
+async def test_score_at_target_turns_is_one():
     turns = [Turn(agent_message=f"turn {i}") for i in range(6)]
-    result = EfficiencyMetric(PRICING, target_turns=6).score(_transcript(turns), _scenario())
+    result = await EfficiencyMetric(PRICING, target_turns=6).score(_transcript(turns), _scenario())
     assert result.score == 1.0
     assert result.passed is None
 
 
-def test_score_below_target_turns_is_capped_at_one():
+async def test_score_below_target_turns_is_capped_at_one():
     turns = [Turn(agent_message="only turn")]
-    result = EfficiencyMetric(PRICING, target_turns=6).score(_transcript(turns), _scenario())
+    result = await EfficiencyMetric(PRICING, target_turns=6).score(_transcript(turns), _scenario())
     assert result.score == 1.0
 
 
-def test_score_above_target_turns_is_proportionally_lower():
+async def test_score_above_target_turns_is_proportionally_lower():
     turns = [Turn(agent_message=f"turn {i}") for i in range(12)]
-    result = EfficiencyMetric(PRICING, target_turns=6).score(_transcript(turns), _scenario())
+    result = await EfficiencyMetric(PRICING, target_turns=6).score(_transcript(turns), _scenario())
     assert result.score == 0.5
 
 
@@ -93,4 +93,4 @@ def test_load_pricing_reads_yaml(tmp_path):
 def test_load_pricing_reads_committed_config():
     pricing = load_pricing("config/model_pricing.yaml")
     assert "gpt-4o-mini" in pricing
-    assert "ollama/llama3.1" in pricing
+    assert "ollama/llama3.1:8b" in pricing

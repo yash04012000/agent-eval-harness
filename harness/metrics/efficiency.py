@@ -59,7 +59,7 @@ class EfficiencyMetric:
         self._pricing = pricing
         self._target_turns = target_turns
 
-    def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult:
+    async def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult:
         detail = compute(transcript, self._pricing)
         actual_turns = detail.turns or 1
         score = min(self._target_turns / actual_turns, 1.0)

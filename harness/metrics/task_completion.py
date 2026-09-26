@@ -37,7 +37,7 @@ def infer_resolution(transcript: Transcript, scenario: Scenario) -> str | None:
 class TaskCompletionMetric:
     name = "task_completion"
 
-    def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult:
+    async def score(self, transcript: Transcript, scenario: Scenario) -> MetricResult:
         outcome = scenario.expected_outcome
         called = {tc.name for tc in all_tool_calls(transcript) if tc.error is None}
         message = final_message(transcript).lower()

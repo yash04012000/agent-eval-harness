@@ -46,25 +46,25 @@ def test_classify_no_mock_response_counts_as_correct():
     assert classify(call) == "correct"
 
 
-def test_zero_calls_scores_one_but_passed_is_none():
-    result = ToolCallAccuracyMetric().score(_transcript([]), _scenario())
+async def test_zero_calls_scores_one_but_passed_is_none():
+    result = await ToolCallAccuracyMetric().score(_transcript([]), _scenario())
     assert result.score == 1.0
     assert result.passed is None
 
 
-def test_all_correct_calls_pass():
+async def test_all_correct_calls_pass():
     calls = [ToolCallRecord(id="c1", name="lookup_order", arguments={"order_id": "A100"})]
-    result = ToolCallAccuracyMetric().score(_transcript(calls), _scenario())
+    result = await ToolCallAccuracyMetric().score(_transcript(calls), _scenario())
     assert result.score == 1.0
     assert result.passed is True
 
 
-def test_mixed_calls_average_and_fail():
+async def test_mixed_calls_average_and_fail():
     calls = [
         ToolCallRecord(id="c1", name="lookup_order", arguments={"order_id": "A100"}),
         ToolCallRecord(id="c2", name="made_up_tool", arguments={}, error="unknown_tool"),
     ]
-    result = ToolCallAccuracyMetric().score(_transcript(calls), _scenario())
+    result = await ToolCallAccuracyMetric().score(_transcript(calls), _scenario())
     assert result.score == 0.5
     assert result.passed is False
     assert result.details == {"calls": 2, "hallucinated": 1, "invalid_args": 0}
