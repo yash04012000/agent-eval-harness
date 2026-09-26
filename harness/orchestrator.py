@@ -42,7 +42,13 @@ async def run_scenario(
         turn_result = await agent.take_turn(messages, scenario.tools, executor)
         messages.append({"role": "assistant", "content": turn_result.assistant_message})
         turns.append(
-            Turn(agent_message=turn_result.assistant_message, tool_calls=turn_result.tool_calls)
+            Turn(
+                agent_message=turn_result.assistant_message,
+                tool_calls=turn_result.tool_calls,
+                model=turn_result.model,
+                prompt_tokens=turn_result.prompt_tokens,
+                completion_tokens=turn_result.completion_tokens,
+            )
         )
 
         user_turn = await user.next(messages)

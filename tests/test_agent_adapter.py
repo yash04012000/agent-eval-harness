@@ -55,6 +55,9 @@ async def test_returns_content_directly_when_model_makes_no_tool_calls():
     assert result.assistant_message == "hello, how can I help?"
     assert result.tool_calls == []
     assert executor.executed == []
+    assert result.model == "gpt-4o-mini"
+    assert result.prompt_tokens == 10
+    assert result.completion_tokens == 5
 
 
 async def test_executes_tool_call_and_reprompts_with_result():
@@ -75,6 +78,9 @@ async def test_executes_tool_call_and_reprompts_with_result():
     assert len(result.tool_calls) == 1
     assert result.tool_calls[0].response == {"status": "shipped"}
     assert len(executor.executed) == 1
+    # two model calls (tool call + follow-up content), tokens summed across both
+    assert result.prompt_tokens == 20
+    assert result.completion_tokens == 10
 
     # second model call's message history includes the tool result
     second_call_messages = client.calls[1]["messages"]
@@ -94,3 +100,5 @@ async def test_iteration_cap_returns_whatever_was_collected():
     assert result.assistant_message == ""
     assert len(result.tool_calls) == 5
     assert len(client.calls) == 5
+    assert result.prompt_tokens == 50
+    assert result.completion_tokens == 25

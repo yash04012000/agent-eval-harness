@@ -53,6 +53,9 @@ async def test_full_scripted_run_produces_expected_transcript():
 
     assert transcript.turns[0].agent_message == "Sure, what's your order id?"
     assert transcript.turns[0].tool_calls == []
+    assert transcript.turns[0].model == "fake-model"
+    assert transcript.turns[0].prompt_tokens == 10
+    assert transcript.turns[0].completion_tokens == 5
 
     assert transcript.turns[1].agent_message == "Your order has shipped, it will arrive in 2 days."
     assert len(transcript.turns[1].tool_calls) == 1

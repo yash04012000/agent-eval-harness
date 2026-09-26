@@ -57,14 +57,22 @@ class ReferenceAgent:
         ]
         tool_schema = _to_openai_tools(tools)
         collected: list[ToolCallRecord] = []
+        prompt_tokens = 0
+        completion_tokens = 0
 
         for _ in range(self._max_tool_iterations):
             response = await self._client.complete(
                 model=self._model, messages=working, tools=tool_schema, temperature=0.0
             )
+            prompt_tokens += response.prompt_tokens
+            completion_tokens += response.completion_tokens
             if not response.tool_calls:
                 return AgentTurnResult(
-                    assistant_message=response.content or "", tool_calls=collected
+                    assistant_message=response.content or "",
+                    tool_calls=collected,
+                    model=self._model,
+                    prompt_tokens=prompt_tokens,
+                    completion_tokens=completion_tokens,
                 )
 
             working.append(
@@ -97,4 +105,10 @@ class ReferenceAgent:
                 )
 
         # Exhausted the internal loop without a final message -- surface what was collected.
-        return AgentTurnResult(assistant_message="", tool_calls=collected)
+        return AgentTurnResult(
+            assistant_message="",
+            tool_calls=collected,
+            model=self._model,
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens,
+        )

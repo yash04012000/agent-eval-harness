@@ -21,6 +21,9 @@ class ToolCallRecord(BaseModel):
 class Turn(BaseModel):
     agent_message: str
     tool_calls: list[ToolCallRecord] = Field(default_factory=list)
+    model: str | None = None
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
 
 
 class Transcript(BaseModel):
