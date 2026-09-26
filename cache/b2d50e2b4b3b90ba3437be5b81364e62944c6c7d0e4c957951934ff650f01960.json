@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_59799974-b267-493c-8587-6d5f441bf1bb",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I want to speak to a supervisor, please.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"I want to speak to a supervisor, please.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 444,
+  "completion_tokens": 38,
+  "latency_ms": 3469.721199999185,
+  "raw": {
+    "id": "chatcmpl-508c7317-b65e-4170-b10e-fc3e369d8737",
+    "created": 1790426578,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I want to speak to a supervisor, please.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_59799974-b267-493c-8587-6d5f441bf1bb",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 38,
+      "prompt_tokens": 444,
+      "total_tokens": 482,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

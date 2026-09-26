@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_cb2bde8f-d87e-4b14-80ab-36e8b540541c",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Yes, that's correct. I provided my email address as riley@example.com. Can you confirm the return is being processed and the full $85 refund will be issued?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Yes, that's correct. I provided my email address as riley@example.com. Can you confirm the return is being processed and the full $85 refund will be issued?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 532,
+  "completion_tokens": 67,
+  "latency_ms": 3800.4437999989023,
+  "raw": {
+    "id": "chatcmpl-147cb9af-76c0-4146-99fa-c50c545e9653",
+    "created": 1790426592,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Yes, that's correct. I provided my email address as riley@example.com. Can you confirm the return is being processed and the full $85 refund will be issued?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_cb2bde8f-d87e-4b14-80ab-36e8b540541c",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 67,
+      "prompt_tokens": 532,
+      "total_tokens": 599,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

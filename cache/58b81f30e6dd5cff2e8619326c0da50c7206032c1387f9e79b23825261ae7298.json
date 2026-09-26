@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_5a09350e-c613-4c62-81af-197069953305",
+      "name": "lookup_order",
+      "arguments": {
+        "order_id": "O400"
+      },
+      "raw_arguments": "{\"order_id\": \"O400\"}"
+    }
+  ],
+  "prompt_tokens": 1120,
+  "completion_tokens": 18,
+  "latency_ms": 2050.8273000014015,
+  "raw": {
+    "id": "chatcmpl-b6d9d7b1-c60b-4d9a-8b32-ab08c52c5e19",
+    "created": 1790426581,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"order_id\": \"O400\"}",
+                "name": "lookup_order"
+              },
+              "id": "call_5a09350e-c613-4c62-81af-197069953305",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 18,
+      "prompt_tokens": 1120,
+      "total_tokens": 1138,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

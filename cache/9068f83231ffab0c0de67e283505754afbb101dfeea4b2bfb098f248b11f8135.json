@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_fba0fcde-a06f-4047-9b68-211763a9290c",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 758,
+  "completion_tokens": 62,
+  "latency_ms": 4945.590900002571,
+  "raw": {
+    "id": "chatcmpl-79cf2737-4cb5-49f3-96a3-b8866818003d",
+    "created": 1790426608,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_fba0fcde-a06f-4047-9b68-211763a9290c",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 62,
+      "prompt_tokens": 758,
+      "total_tokens": 820,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

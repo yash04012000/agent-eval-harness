@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_63504f48-0eac-4e38-9fff-f9d75af6876e",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Can you tell me what the customer support representative will discuss with me?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Can you tell me what the customer support representative will discuss with me?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 477,
+  "completion_tokens": 43,
+  "latency_ms": 4033.7045999986003,
+  "raw": {
+    "id": "chatcmpl-890f171e-d7a1-42fe-945e-65efdea1ed39",
+    "created": 1790426561,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Can you tell me what the customer support representative will discuss with me?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_63504f48-0eac-4e38-9fff-f9d75af6876e",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 43,
+      "prompt_tokens": 477,
+      "total_tokens": 520,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

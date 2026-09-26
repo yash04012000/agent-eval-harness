@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_55ff1da9-ef0d-4235-beae-e71522404a21",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "No, I think you got it right that time. Order O500 has shipped and is on its way to me. Thank you for your help, I appreciate it.",
+        "ended": "true",
+        "end_reason": "goal_achieved"
+      },
+      "raw_arguments": "{\"message\": \"No, I think you got it right that time. Order O500 has shipped and is on its way to me. Thank you for your help, I appreciate it.\", \"ended\": \"true\", \"end_reason\": \"goal_achieved\"}"
+    }
+  ],
+  "prompt_tokens": 662,
+  "completion_tokens": 66,
+  "latency_ms": 4774.534000000131,
+  "raw": {
+    "id": "chatcmpl-3d1c7537-2d03-42e8-8281-c60795e2124c",
+    "created": 1790426640,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"No, I think you got it right that time. Order O500 has shipped and is on its way to me. Thank you for your help, I appreciate it.\", \"ended\": \"true\", \"end_reason\": \"goal_achieved\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_55ff1da9-ef0d-4235-beae-e71522404a21",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 66,
+      "prompt_tokens": 662,
+      "total_tokens": 728,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

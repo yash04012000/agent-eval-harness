@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_0886655b-787c-432a-8a5c-95c373c6b850",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "That still doesn",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"That still doesn\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 705,
+  "completion_tokens": 33,
+  "latency_ms": 3601.2988000002224,
+  "raw": {
+    "id": "chatcmpl-5570e21c-102b-4431-8090-cec6330b4c3e",
+    "created": 1790426590,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"That still doesn\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_0886655b-787c-432a-8a5c-95c373c6b850",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 33,
+      "prompt_tokens": 705,
+      "total_tokens": 738,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

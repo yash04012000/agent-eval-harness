@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_69a9856b-07ba-47a1-a89b-409f25439d3b",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "This is ridiculous. I just want to know where my order O500 is. Can you please put me through to someone who can actually help me?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"This is ridiculous. I just want to know where my order O500 is. Can you please put me through to someone who can actually help me?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 481,
+  "completion_tokens": 59,
+  "latency_ms": 4364.1385000009905,
+  "raw": {
+    "id": "chatcmpl-70ee788d-a942-431d-b995-d991fc61d721",
+    "created": 1790426594,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"This is ridiculous. I just want to know where my order O500 is. Can you please put me through to someone who can actually help me?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_69a9856b-07ba-47a1-a89b-409f25439d3b",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 59,
+      "prompt_tokens": 481,
+      "total_tokens": 540,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

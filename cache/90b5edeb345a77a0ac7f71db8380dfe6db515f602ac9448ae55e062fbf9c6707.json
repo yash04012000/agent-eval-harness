@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_6dea22f8-7c3c-42ae-b657-98e99434e223",
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "refund exceeds policy limit"
+      },
+      "raw_arguments": "{\"reason\": \"refund exceeds policy limit\"}"
+    }
+  ],
+  "prompt_tokens": 1017,
+  "completion_tokens": 21,
+  "latency_ms": 2845.868899999914,
+  "raw": {
+    "id": "chatcmpl-b05e56f5-73dc-456f-ac12-378ba9755f0a",
+    "created": 1790426579,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"reason\": \"refund exceeds policy limit\"}",
+                "name": "escalate_to_human"
+              },
+              "id": "call_6dea22f8-7c3c-42ae-b657-98e99434e223",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 21,
+      "prompt_tokens": 1017,
+      "total_tokens": 1038,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

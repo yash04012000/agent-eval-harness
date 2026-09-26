@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_129463a5-bd23-4f58-a955-d14a2453b378",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Why is my refund being handled by a human? I thought this was an automated system?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Why is my refund being handled by a human? I thought this was an automated system?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 579,
+  "completion_tokens": 47,
+  "latency_ms": 2782.204700000875,
+  "raw": {
+    "id": "chatcmpl-d515900b-b86f-441e-997b-3099b2a577b8",
+    "created": 1790426576,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Why is my refund being handled by a human? I thought this was an automated system?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_129463a5-bd23-4f58-a955-d14a2453b378",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 47,
+      "prompt_tokens": 579,
+      "total_tokens": 626,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

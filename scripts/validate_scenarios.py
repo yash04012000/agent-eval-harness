@@ -9,9 +9,18 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import yaml
 from pydantic import ValidationError
 
 from harness.scenario import load_scenario
+from harness.suite import load_suite
+
+
+def _is_suite_manifest(path: Path) -> bool:
+    """Suite manifests (e.g. `suites/support.yaml`) have a top-level `scenarios` list; scenario
+    files don't -- this is what distinguishes the two when both live under `suites/`."""
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    return isinstance(data, dict) and "scenarios" in data
 
 
 def main(suites_dir: str = "suites") -> int:
@@ -23,6 +32,15 @@ def main(suites_dir: str = "suites") -> int:
 
     errors = 0
     for path in paths:
+        if _is_suite_manifest(path):
+            try:
+                suite = load_suite(path)
+            except (ValidationError, FileNotFoundError) as exc:
+                errors += 1
+                print(f"INVALID  {path}\n{exc}\n")
+                continue
+            print(f"ok       {path}  (suite manifest, {len(suite.scenarios)} scenarios)")
+            continue
         try:
             scenario = load_scenario(path)
         except ValidationError as exc:

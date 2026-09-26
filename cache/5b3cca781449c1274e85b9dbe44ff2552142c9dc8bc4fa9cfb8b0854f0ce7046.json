@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_0443937d-3846-4e32-9310-fd7984d5d68a",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I don’t think you understand. I received a charge on my card for order B200 that I don’t recognize. Can you please check the status of the order again?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"I don\\u2019t think you understand. I received a charge on my card for order B200 that I don\\u2019t recognize. Can you please check the status of the order again?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 1011,
+  "completion_tokens": 63,
+  "latency_ms": 3338.072899998224,
+  "raw": {
+    "id": "chatcmpl-0d01b220-9ff7-4ea8-bf16-6f4b1ae088d5",
+    "created": 1790426636,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I don\\u2019t think you understand. I received a charge on my card for order B200 that I don\\u2019t recognize. Can you please check the status of the order again?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_0443937d-3846-4e32-9310-fd7984d5d68a",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 63,
+      "prompt_tokens": 1011,
+      "total_tokens": 1074,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

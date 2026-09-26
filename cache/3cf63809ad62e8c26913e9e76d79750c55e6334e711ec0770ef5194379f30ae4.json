@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_e32ed28a-e9f8-4c45-9249-d34f7c7676e9",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "That doesn",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"That doesn\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 386,
+  "completion_tokens": 32,
+  "latency_ms": 3402.3659999984375,
+  "raw": {
+    "id": "chatcmpl-aac76510-445a-474c-ad1b-22092e0027bb",
+    "created": 1790426544,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"That doesn\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_e32ed28a-e9f8-4c45-9249-d34f7c7676e9",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 32,
+      "prompt_tokens": 386,
+      "total_tokens": 418,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

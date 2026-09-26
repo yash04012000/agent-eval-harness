@@ -1,0 +1,34 @@
+{
+  "content": "I've escalated your refund request to a human representative. You should receive a notification with a ticket ID, which is T-1000. A representative will contact you to assist with your refund for order R302. They will review your case and provide an update on the status of your refund.",
+  "tool_calls": [],
+  "prompt_tokens": 1130,
+  "completion_tokens": 60,
+  "latency_ms": 4229.978600000322,
+  "raw": {
+    "id": "chatcmpl-aa95bb20-27d3-4cc9-a1c6-bf5875b6f551",
+    "created": 1790426620,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "I've escalated your refund request to a human representative. You should receive a notification with a ticket ID, which is T-1000. A representative will contact you to assist with your refund for order R302. They will review your case and provide an update on the status of your refund.",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "reasoning_content": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 60,
+      "prompt_tokens": 1130,
+      "total_tokens": 1190,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

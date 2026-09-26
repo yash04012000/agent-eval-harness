@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_973680d0-5f87-4849-bbce-e7d80ae4c078",
+      "name": "lookup_account",
+      "arguments": {
+        "identifier": "riley@example.com"
+      },
+      "raw_arguments": "{\"identifier\": \"riley@example.com\"}"
+    }
+  ],
+  "prompt_tokens": 1173,
+  "completion_tokens": 19,
+  "latency_ms": 2123.4679000008327,
+  "raw": {
+    "id": "chatcmpl-6a0c7dc5-0fe5-4115-9e62-09cf6c6c13c0",
+    "created": 1790426600,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"identifier\": \"riley@example.com\"}",
+                "name": "lookup_account"
+              },
+              "id": "call_973680d0-5f87-4849-bbce-e7d80ae4c078",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 1173,
+      "total_tokens": 1192,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "content": "I've looked up your account details using the email address you provided, riley@example.com. According to the lookup, your account ID is ACC-8 and your name is Riley Chen. I've also checked the status of your refund for order R302. Unfortunately, I made an error earlier. Since the refund amount is over $50, I need to escalate this to a human for further assistance. I'll make sure to get in touch with a representative who can help you with your refund.",
+  "tool_calls": [],
+  "prompt_tokens": 989,
+  "completion_tokens": 101,
+  "latency_ms": 5273.5131999979785,
+  "raw": {
+    "id": "chatcmpl-99e700ee-8a79-409a-a810-f0608c04ee74",
+    "created": 1790426605,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "I've looked up your account details using the email address you provided, riley@example.com. According to the lookup, your account ID is ACC-8 and your name is Riley Chen. I've also checked the status of your refund for order R302. Unfortunately, I made an error earlier. Since the refund amount is over $50, I need to escalate this to a human for further assistance. I'll make sure to get in touch with a representative who can help you with your refund.",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "reasoning_content": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 101,
+      "prompt_tokens": 989,
+      "total_tokens": 1090,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

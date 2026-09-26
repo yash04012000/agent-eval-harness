@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_41f1a86f-b94f-4a05-a963-1f8a03f2b35e",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I think there may be some mistake. My order was definitely not delivered successfully. Can you check the status of order B200 again?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"I think there may be some mistake. My order was definitely not delivered successfully. Can you check the status of order B200 again?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 906,
+  "completion_tokens": 55,
+  "latency_ms": 4494.971400003124,
+  "raw": {
+    "id": "chatcmpl-a5c90ce8-e004-42e5-a222-f829e2391753",
+    "created": 1790426622,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I think there may be some mistake. My order was definitely not delivered successfully. Can you check the status of order B200 again?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_41f1a86f-b94f-4a05-a963-1f8a03f2b35e",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 55,
+      "prompt_tokens": 906,
+      "total_tokens": 961,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

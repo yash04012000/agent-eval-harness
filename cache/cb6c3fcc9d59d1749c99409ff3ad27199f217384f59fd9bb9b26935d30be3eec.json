@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_b6c3c692-b602-43e4-8ea2-478ccda9d2f2",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "According to the tracking information, the tracking number for order O400 is TK1234567890.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"According to the tracking information, the tracking number for order O400 is TK1234567890.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 996,
+  "completion_tokens": 48,
+  "latency_ms": 5331.999800000631,
+  "raw": {
+    "id": "chatcmpl-4bf34f84-dd5c-4bdf-ae04-47c4c8300410",
+    "created": 1790426654,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"According to the tracking information, the tracking number for order O400 is TK1234567890.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_b6c3c692-b602-43e4-8ea2-478ccda9d2f2",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 48,
+      "prompt_tokens": 996,
+      "total_tokens": 1044,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

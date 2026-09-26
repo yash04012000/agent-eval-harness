@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_33213792-7b57-4114-bdf7-c08a74e1b0e5",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Can you please check the status of my order O500 again? I want to know where it is, not receive a refund.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Can you please check the status of my order O500 again? I want to know where it is, not receive a refund.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 538,
+  "completion_tokens": 54,
+  "latency_ms": 4205.7251000005635,
+  "raw": {
+    "id": "chatcmpl-21911267-1c43-49a4-a0b5-7dfd063e7f68",
+    "created": 1790426610,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Can you please check the status of my order O500 again? I want to know where it is, not receive a refund.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_33213792-7b57-4114-bdf7-c08a74e1b0e5",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 54,
+      "prompt_tokens": 538,
+      "total_tokens": 592,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

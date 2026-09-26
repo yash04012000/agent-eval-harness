@@ -1,0 +1,59 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_72a50d78-bd40-4076-ba46-9fafd588fbe5",
+      "name": "submit_groundedness_verdict",
+      "arguments": {
+        "verdict": "not_grounded",
+        "rationale": "The assistant's message does not contain any factual claims that can be supported or refuted by the tool results.",
+        "claims": [
+          {
+            "claim": "I cannot provide a response that contains a mistake.",
+            "supported": false,
+            "evidence": null
+          }
+        ]
+      },
+      "raw_arguments": "{\"verdict\": \"not_grounded\", \"rationale\": \"The assistant's message does not contain any factual claims that can be supported or refuted by the tool results.\", \"claims\": [{\"claim\": \"I cannot provide a response that contains a mistake.\", \"supported\": false, \"evidence\": null}]}"
+    }
+  ],
+  "prompt_tokens": 1340,
+  "completion_tokens": 99,
+  "latency_ms": 16046.93430000043,
+  "raw": {
+    "id": "chatcmpl-de19aacc-5a39-4c45-bee4-1e083f53cf6f",
+    "created": 1790426695,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"verdict\": \"not_grounded\", \"rationale\": \"The assistant's message does not contain any factual claims that can be supported or refuted by the tool results.\", \"claims\": [{\"claim\": \"I cannot provide a response that contains a mistake.\", \"supported\": false, \"evidence\": null}]}",
+                "name": "submit_groundedness_verdict"
+              },
+              "id": "call_72a50d78-bd40-4076-ba46-9fafd588fbe5",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 99,
+      "prompt_tokens": 1340,
+      "total_tokens": 1439,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

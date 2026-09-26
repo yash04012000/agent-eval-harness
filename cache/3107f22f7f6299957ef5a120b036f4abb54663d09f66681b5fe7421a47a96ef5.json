@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_9afba928-0cf7-4e3f-b71f-a100d00d4034",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Wait, I just received an email from Acme saying that my order was being held up because of a problem with my account. Can you check again?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Wait, I just received an email from Acme saying that my order was being held up because of a problem with my account. Can you check again?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 484,
+  "completion_tokens": 59,
+  "latency_ms": 4925.0180999988515,
+  "raw": {
+    "id": "chatcmpl-c0dba288-40ff-465c-ad88-9f5470c650da",
+    "created": 1790426560,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Wait, I just received an email from Acme saying that my order was being held up because of a problem with my account. Can you check again?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_9afba928-0cf7-4e3f-b71f-a100d00d4034",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 59,
+      "prompt_tokens": 484,
+      "total_tokens": 543,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

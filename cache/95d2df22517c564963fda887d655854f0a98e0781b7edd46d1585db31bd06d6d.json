@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_4b782e5f-07d4-4173-b38b-bde6be64ae29",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit. The tracking number for your order is TK1234567890.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit. The tracking number for your order is TK1234567890.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 1169,
+  "completion_tokens": 75,
+  "latency_ms": 3522.5683999997273,
+  "raw": {
+    "id": "chatcmpl-3df676b0-4112-4b73-97f6-4d06d2766ece",
+    "created": 1790426677,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit. The tracking number for your order is TK1234567890.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_4b782e5f-07d4-4173-b38b-bde6be64ae29",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 75,
+      "prompt_tokens": 1169,
+      "total_tokens": 1244,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

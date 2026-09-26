@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_5b7d7746-0ae8-4423-9a31-e96d26c716bf",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "That sounds good, I appreciate the effort. Can you tell me when I can expect the representative to contact me?"
+      },
+      "raw_arguments": "{\"message\": \"That sounds good, I appreciate the effort. Can you tell me when I can expect the representative to contact me?\"}"
+    }
+  ],
+  "prompt_tokens": 673,
+  "completion_tokens": 42,
+  "latency_ms": 3735.2049999972223,
+  "raw": {
+    "id": "chatcmpl-c62fabb5-6411-42f6-a16b-7c45774a0295",
+    "created": 1790426609,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"That sounds good, I appreciate the effort. Can you tell me when I can expect the representative to contact me?\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_5b7d7746-0ae8-4423-9a31-e96d26c716bf",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 42,
+      "prompt_tokens": 673,
+      "total_tokens": 715,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

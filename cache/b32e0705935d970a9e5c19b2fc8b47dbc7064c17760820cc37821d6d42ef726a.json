@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_4bd80965-def4-4513-a4c4-7aa5fc8dc75d",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I think that’s all I can tell you about the status of your order. Is there anything else I can help you with?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"I think that\\u2019s all I can tell you about the status of your order. Is there anything else I can help you with?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 832,
+  "completion_tokens": 55,
+  "latency_ms": 4734.501699997054,
+  "raw": {
+    "id": "chatcmpl-60785a17-a68b-43c6-953e-86a146874206",
+    "created": 1790426623,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I think that\\u2019s all I can tell you about the status of your order. Is there anything else I can help you with?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_4bd80965-def4-4513-a4c4-7aa5fc8dc75d",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 55,
+      "prompt_tokens": 832,
+      "total_tokens": 887,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

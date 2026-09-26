@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_0990143b-959d-4bc2-b393-37624f72c976",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I just want to know when I can expect the representative to contact me, and to confirm that they will be able to issue the full $85 refund. Can you please confirm this?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"I just want to know when I can expect the representative to contact me, and to confirm that they will be able to issue the full $85 refund. Can you please confirm this?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 802,
+  "completion_tokens": 65,
+  "latency_ms": 4098.432499999035,
+  "raw": {
+    "id": "chatcmpl-bf20de8c-7183-4f87-9d14-d9fbc799891f",
+    "created": 1790426639,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I just want to know when I can expect the representative to contact me, and to confirm that they will be able to issue the full $85 refund. Can you please confirm this?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_0990143b-959d-4bc2-b393-37624f72c976",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 65,
+      "prompt_tokens": 802,
+      "total_tokens": 867,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

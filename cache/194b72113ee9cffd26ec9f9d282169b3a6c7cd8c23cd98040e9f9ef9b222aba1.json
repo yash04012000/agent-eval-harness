@@ -1,0 +1,52 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_f5f624bc-94d0-418f-b12d-076bd69c0c6f",
+      "name": "issue_refund",
+      "arguments": {
+        "order_id": "R302",
+        "amount": "85"
+      },
+      "raw_arguments": "{\"order_id\": \"R302\", \"amount\": \"85\"}"
+    }
+  ],
+  "prompt_tokens": 770,
+  "completion_tokens": 26,
+  "latency_ms": 2553.355599997303,
+  "raw": {
+    "id": "chatcmpl-b0dc4e8b-4a3a-4e61-9833-0d0aaf3b4fc2",
+    "created": 1790426548,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"order_id\": \"R302\", \"amount\": \"85\"}",
+                "name": "issue_refund"
+              },
+              "id": "call_f5f624bc-94d0-418f-b12d-076bd69c0c6f",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 26,
+      "prompt_tokens": 770,
+      "total_tokens": 796,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

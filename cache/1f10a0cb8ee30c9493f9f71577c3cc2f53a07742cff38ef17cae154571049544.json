@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_986cb4b4-8ddc-4d76-9637-5db3b376d69f",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "No, I just want the full $85 refund now that I’ve provided my email address. Can you confirm the return is being processed?",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"No, I just want the full $85 refund now that I\\u2019ve provided my email address. Can you confirm the return is being processed?\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 478,
+  "completion_tokens": 56,
+  "latency_ms": 3309.3919000020833,
+  "raw": {
+    "id": "chatcmpl-a1f6b434-cde6-480a-894e-5d334c3086f0",
+    "created": 1790426577,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"No, I just want the full $85 refund now that I\\u2019ve provided my email address. Can you confirm the return is being processed?\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_986cb4b4-8ddc-4d76-9637-5db3b376d69f",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 56,
+      "prompt_tokens": 478,
+      "total_tokens": 534,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_aad8a9a7-2937-4735-b7c4-297a2949e810",
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "Customer disputes refund and wants to speak to a supervisor"
+      },
+      "raw_arguments": "{\"reason\": \"Customer disputes refund and wants to speak to a supervisor\"}"
+    }
+  ],
+  "prompt_tokens": 972,
+  "completion_tokens": 27,
+  "latency_ms": 2426.322200000868,
+  "raw": {
+    "id": "chatcmpl-f9687cd2-5d18-4f13-8813-3ddffd42431c",
+    "created": 1790426582,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"reason\": \"Customer disputes refund and wants to speak to a supervisor\"}",
+                "name": "escalate_to_human"
+              },
+              "id": "call_aad8a9a7-2937-4735-b7c4-297a2949e810",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 27,
+      "prompt_tokens": 972,
+      "total_tokens": 999,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

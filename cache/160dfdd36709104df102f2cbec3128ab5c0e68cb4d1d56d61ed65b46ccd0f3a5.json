@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_e40f796f-87b4-48d6-9b3d-2596461946f2",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I just checked my email and I don"
+      },
+      "raw_arguments": "{\"message\": \"I just checked my email and I don\"}"
+    }
+  ],
+  "prompt_tokens": 358,
+  "completion_tokens": 25,
+  "latency_ms": 2893.6345000001893,
+  "raw": {
+    "id": "chatcmpl-e0293a12-cce5-4a9a-8281-25480d6888c0",
+    "created": 1790426545,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I just checked my email and I don\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_e40f796f-87b4-48d6-9b3d-2596461946f2",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 25,
+      "prompt_tokens": 358,
+      "total_tokens": 383,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

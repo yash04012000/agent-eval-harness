@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_b86c6246-e21e-485d-9b3f-3adffafd5894",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Yes, actually, I wanted to ask for the tracking number for order O400.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Yes, actually, I wanted to ask for the tracking number for order O400.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 898,
+  "completion_tokens": 45,
+  "latency_ms": 3400.8176000024832,
+  "raw": {
+    "id": "chatcmpl-1de74915-c493-4427-a1bf-2016f741ba30",
+    "created": 1790426637,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Yes, actually, I wanted to ask for the tracking number for order O400.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_b86c6246-e21e-485d-9b3f-3adffafd5894",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 45,
+      "prompt_tokens": 898,
+      "total_tokens": 943,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

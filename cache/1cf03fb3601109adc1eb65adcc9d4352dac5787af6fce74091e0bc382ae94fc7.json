@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_fd23cead-9d57-4d4c-95b7-b7fc59fa7ffb",
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "refund amount over $50"
+      },
+      "raw_arguments": "{\"reason\": \"refund amount over $50\"}"
+    }
+  ],
+  "prompt_tokens": 1099,
+  "completion_tokens": 22,
+  "latency_ms": 2686.2580999986676,
+  "raw": {
+    "id": "chatcmpl-6f522b83-99df-404c-ab88-504423a61760",
+    "created": 1790426611,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"reason\": \"refund amount over $50\"}",
+                "name": "escalate_to_human"
+              },
+              "id": "call_fd23cead-9d57-4d4c-95b7-b7fc59fa7ffb",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 22,
+      "prompt_tokens": 1099,
+      "total_tokens": 1121,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

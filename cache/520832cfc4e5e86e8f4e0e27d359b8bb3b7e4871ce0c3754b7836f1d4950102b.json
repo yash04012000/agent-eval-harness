@@ -1,0 +1,34 @@
+{
+  "content": "Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit.",
+  "tool_calls": [],
+  "prompt_tokens": 1336,
+  "completion_tokens": 35,
+  "latency_ms": 3590.7482000002346,
+  "raw": {
+    "id": "chatcmpl-70381c4b-5d9a-464c-886c-db7684b814d1",
+    "created": 1790426634,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "Your order O400 has shipped and is expected to arrive in 2 days. The total amount of the order is $55, which is on schedule and in transit.",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "reasoning_content": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 35,
+      "prompt_tokens": 1336,
+      "total_tokens": 1371,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

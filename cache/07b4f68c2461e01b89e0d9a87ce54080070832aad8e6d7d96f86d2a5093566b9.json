@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_ed1aed3b-6bfe-4616-bf83-95d482bb0d88",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "Yes, that sounds good, thanks for checking on that for me.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"Yes, that sounds good, thanks for checking on that for me.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 621,
+  "completion_tokens": 42,
+  "latency_ms": 3954.2411000002176,
+  "raw": {
+    "id": "chatcmpl-9df6694d-d07c-4e40-9319-d484f0d598fd",
+    "created": 1790426625,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"Yes, that sounds good, thanks for checking on that for me.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_ed1aed3b-6bfe-4616-bf83-95d482bb0d88",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 42,
+      "prompt_tokens": 621,
+      "total_tokens": 663,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

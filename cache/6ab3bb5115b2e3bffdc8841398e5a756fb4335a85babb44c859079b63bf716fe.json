@@ -1,0 +1,34 @@
+{
+  "content": "I've looked into the issue with your order B200. It appears that the order was indeed delivered successfully, and I've verified your account information. However, I noticed that you've already received a refund for this order, and I'm not able to issue another refund. If you have any further questions or concerns, please don't hesitate to reach out.",
+  "tool_calls": [],
+  "prompt_tokens": 1381,
+  "completion_tokens": 73,
+  "latency_ms": 3192.2303999999713,
+  "raw": {
+    "id": "chatcmpl-e409eab8-7b85-4a6d-8ac9-5e62a2008cad",
+    "created": 1790426633,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "I've looked into the issue with your order B200. It appears that the order was indeed delivered successfully, and I've verified your account information. However, I noticed that you've already received a refund for this order, and I'm not able to issue another refund. If you have any further questions or concerns, please don't hesitate to reach out.",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "reasoning_content": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 73,
+      "prompt_tokens": 1381,
+      "total_tokens": 1454,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

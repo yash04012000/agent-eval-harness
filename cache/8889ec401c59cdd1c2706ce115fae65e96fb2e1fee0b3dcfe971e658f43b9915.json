@@ -1,0 +1,51 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_13234def-da5b-45c8-8fcb-5b60608c00fd",
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "Customer dispute on order status"
+      },
+      "raw_arguments": "{\"reason\": \"Customer dispute on order status\"}"
+    }
+  ],
+  "prompt_tokens": 1022,
+  "completion_tokens": 22,
+  "latency_ms": 2365.2877999993507,
+  "raw": {
+    "id": "chatcmpl-7f27e3c9-d8fc-4a52-8bf9-67e86a51358d",
+    "created": 1790426598,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"reason\": \"Customer dispute on order status\"}",
+                "name": "escalate_to_human"
+              },
+              "id": "call_13234def-da5b-45c8-8fcb-5b60608c00fd",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 22,
+      "prompt_tokens": 1022,
+      "total_tokens": 1044,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

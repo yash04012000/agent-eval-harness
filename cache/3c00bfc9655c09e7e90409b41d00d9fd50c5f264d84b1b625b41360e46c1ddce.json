@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_8dfc7927-d63b-4001-aa22-6d4a230e1c6a",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "I am still waiting for the status of my order O400, not the refund request. I want to know if it has shipped and if there are any issues.",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"I am still waiting for the status of my order O400, not the refund request. I want to know if it has shipped and if there are any issues.\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 685,
+  "completion_tokens": 62,
+  "latency_ms": 3064.2995000016526,
+  "raw": {
+    "id": "chatcmpl-6c1aa7fa-4a04-4f39-a110-e0113461b5b6",
+    "created": 1790426591,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"I am still waiting for the status of my order O400, not the refund request. I want to know if it has shipped and if there are any issues.\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_8dfc7927-d63b-4001-aa22-6d4a230e1c6a",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 62,
+      "prompt_tokens": 685,
+      "total_tokens": 747,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

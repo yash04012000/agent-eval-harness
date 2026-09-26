@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_fa9fcef6-bb22-4eff-aef1-54d0ffcf3851",
+      "name": "respond_as_user",
+      "arguments": {
+        "message": "My email is alex@example.com",
+        "ended": "false",
+        "end_reason": "null"
+      },
+      "raw_arguments": "{\"message\": \"My email is alex@example.com\", \"ended\": \"false\", \"end_reason\": \"null\"}"
+    }
+  ],
+  "prompt_tokens": 366,
+  "completion_tokens": 36,
+  "latency_ms": 4687.894099999539,
+  "raw": {
+    "id": "chatcmpl-5676de36-dea9-4492-b903-eda3b9f3fb5d",
+    "created": 1790426544,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"message\": \"My email is alex@example.com\", \"ended\": \"false\", \"end_reason\": \"null\"}",
+                "name": "respond_as_user"
+              },
+              "id": "call_fa9fcef6-bb22-4eff-aef1-54d0ffcf3851",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 36,
+      "prompt_tokens": 366,
+      "total_tokens": 402,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}

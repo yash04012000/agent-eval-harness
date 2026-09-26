@@ -1,0 +1,53 @@
+{
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_a77f3bce-4613-4000-b053-1669bfecbf50",
+      "name": "submit_groundedness_verdict",
+      "arguments": {
+        "verdict": "partial",
+        "rationale": "The assistant made several claims that were supported by the tool results, but also made claims that were not supported.",
+        "claims": "[{\"claim\": \"The order was indeed delivered successfully.\", \"supported\": true, \"evidence\": \"lookup_order({'order_id': 'B200'}) -> {'status': 'delivered', 'total': 18.5, 'eta_days': 0, 'note': 'Standard delivery.'}\"}, {\"claim\": \"I've verified your account information.\", \"supported\": true, \"evidence\": \"lookup_account({'identifier': 'alex@example.com'}) -> {'verified': true, 'account_id': 'ACC-1', 'owner_name': 'Alex Rivera'}\"}, {\"claim\": \"You've already received a refund for this order.\", \"supported\": false, \"evidence\": \"No evidence in the tool results to support this claim.\"}, {\"claim\": \"I'm not able to issue another refund.\", \"supported\": false, \"evidence\": \"No evidence in the tool results to support this claim.\"}]"
+      },
+      "raw_arguments": "{\"verdict\": \"partial\", \"rationale\": \"The assistant made several claims that were supported by the tool results, but also made claims that were not supported.\", \"claims\": \"[{\\\"claim\\\": \\\"The order was indeed delivered successfully.\\\", \\\"supported\\\": true, \\\"evidence\\\": \\\"lookup_order({'order_id': 'B200'}) -> {'status': 'delivered', 'total': 18.5, 'eta_days': 0, 'note': 'Standard delivery.'}\\\"}, {\\\"claim\\\": \\\"I've verified your account information.\\\", \\\"supported\\\": true, \\\"evidence\\\": \\\"lookup_account({'identifier': 'alex@example.com'}) -> {'verified': true, 'account_id': 'ACC-1', 'owner_name': 'Alex Rivera'}\\\"}, {\\\"claim\\\": \\\"You've already received a refund for this order.\\\", \\\"supported\\\": false, \\\"evidence\\\": \\\"No evidence in the tool results to support this claim.\\\"}, {\\\"claim\\\": \\\"I'm not able to issue another refund.\\\", \\\"supported\\\": false, \\\"evidence\\\": \\\"No evidence in the tool results to support this claim.\\\"}]\"}"
+    }
+  ],
+  "prompt_tokens": 1435,
+  "completion_tokens": 252,
+  "latency_ms": 13734.226299999136,
+  "raw": {
+    "id": "chatcmpl-4bd0eeeb-9cba-43c5-809a-0957ecc3502e",
+    "created": 1790426692,
+    "model": "ollama/llama3.1:8b",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "content": null,
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "function": {
+                "arguments": "{\"verdict\": \"partial\", \"rationale\": \"The assistant made several claims that were supported by the tool results, but also made claims that were not supported.\", \"claims\": \"[{\\\"claim\\\": \\\"The order was indeed delivered successfully.\\\", \\\"supported\\\": true, \\\"evidence\\\": \\\"lookup_order({'order_id': 'B200'}) -> {'status': 'delivered', 'total': 18.5, 'eta_days': 0, 'note': 'Standard delivery.'}\\\"}, {\\\"claim\\\": \\\"I've verified your account information.\\\", \\\"supported\\\": true, \\\"evidence\\\": \\\"lookup_account({'identifier': 'alex@example.com'}) -> {'verified': true, 'account_id': 'ACC-1', 'owner_name': 'Alex Rivera'}\\\"}, {\\\"claim\\\": \\\"You've already received a refund for this order.\\\", \\\"supported\\\": false, \\\"evidence\\\": \\\"No evidence in the tool results to support this claim.\\\"}, {\\\"claim\\\": \\\"I'm not able to issue another refund.\\\", \\\"supported\\\": false, \\\"evidence\\\": \\\"No evidence in the tool results to support this claim.\\\"}]\"}",
+                "name": "submit_groundedness_verdict"
+              },
+              "id": "call_a77f3bce-4613-4000-b053-1669bfecbf50",
+              "type": "function"
+            }
+          ],
+          "function_call": null
+        }
+      }
+    ],
+    "usage": {
+      "completion_tokens": 252,
+      "prompt_tokens": 1435,
+      "total_tokens": 1687,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    }
+  }
+}
