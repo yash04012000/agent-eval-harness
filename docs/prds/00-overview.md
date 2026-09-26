@@ -7,7 +7,7 @@ status column as work lands.
 |---|-----|--------|--------|
 | 1 | [01-foundations.md](01-foundations.md) | Scenario schema, model-provider abstraction, deterministic cache/replay | Done |
 | 2 | [02-conversation-engine.md](02-conversation-engine.md) | Simulated user, agent runner, tool mocking, concurrency + token budget | Done |
-| 3 | [03-deterministic-scoring.md](03-deterministic-scoring.md) | Task completion, tool-call accuracy, efficiency metrics | Draft |
+| 3 | [03-deterministic-scoring.md](03-deterministic-scoring.md) | Task completion, tool-call accuracy, efficiency metrics | Done |
 | 4 | [04-judge-and-validation.md](04-judge-and-validation.md) | Groundedness rubric, LLM-as-judge, 50-label agreement study | Draft |
 | 5 | [05-gates-tracing-reporting-cli.md](05-gates-tracing-reporting-cli.md) | Baseline/regression gate, OpenTelemetry spans, report generator, `agent-eval` CLI | Draft |
 | 6 | [06-content-and-ci.md](06-content-and-ci.md) | Scenario suite (20+, 4 intents, 2 adversarial), GH Actions gate, DESIGN.md/README numbers | Draft |

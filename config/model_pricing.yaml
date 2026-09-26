@@ -1,0 +1,6 @@
+gpt-4o-mini:
+  prompt_per_1k: 0.00015
+  completion_per_1k: 0.0006
+ollama/llama3.1:
+  prompt_per_1k: 0.0
+  completion_per_1k: 0.0
