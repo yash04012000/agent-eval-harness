@@ -24,6 +24,44 @@ tools:
         eta_days: 2
     default_response:
       error: order_not_found
+  - name: lookup_account
+    description: Look up a customer account by email or account id. Confirms identity.
+    parameters:
+      type: object
+      properties:
+        identifier:
+          type: string
+      required: [identifier]
+    responses: {}
+    default_response:
+      verified: true
+      account_id: ACC-GENERIC
+      owner_name: Verified Customer
+  - name: issue_refund
+    description: Issue a refund for an order, up to the policy limit.
+    parameters:
+      type: object
+      properties:
+        order_id:
+          type: string
+        amount:
+          type: number
+      required: [order_id, amount]
+    responses: {}
+    default_response:
+      status: issued
+  - name: escalate_to_human
+    description: Escalate the conversation to a human agent.
+    parameters:
+      type: object
+      properties:
+        reason:
+          type: string
+      required: [reason]
+    responses: {}
+    default_response:
+      status: escalated
+      ticket_id: T-1000
 expected_outcome:
   resolution: resolved
   required_tool_calls: [lookup_order]

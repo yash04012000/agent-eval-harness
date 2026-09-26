@@ -1,0 +1,8 @@
+suite: schema_smoke
+scenarios:
+  - _schema_smoke.yaml
+concurrency: 1
+token_budget: 50000
+agent_model: ollama/llama3.1:8b
+simulator_model: ollama/llama3.1:8b
+judge_model: ollama/llama3.1:8b

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agent eval report -- {{ suite_name }}</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Helvetica, Arial, sans-serif; margin: 2rem auto; max-width: 960px; color: #1a1a1a; }
+  h1, h2 { border-bottom: 1px solid #ddd; padding-bottom: 0.3rem; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+  th, td { border: 1px solid #ddd; padding: 0.4rem 0.6rem; text-align: left; font-size: 0.9rem; }
+  th { background: #f5f5f5; }
+  .pass { color: #1a7f37; font-weight: 600; }
+  .fail { color: #c0392b; font-weight: 600; }
+  .gate-pass { color: #1a7f37; }
+  .gate-fail { color: #c0392b; }
+  .meta { color: #555; font-size: 0.9rem; }
+  .scenario-fail { border: 1px solid #f3c1c1; background: #fff6f6; padding: 1rem; margin: 1rem 0; border-radius: 6px; }
+  code { background: #f0f0f0; padding: 0.1rem 0.3rem; border-radius: 3px; }
+</style>
+</head>
+<body>
+  <h1>Agent eval report</h1>
+  <p class="meta">
+    Suite: <strong>{{ suite_name }}</strong> &middot;
+    Model: <strong>{{ model }}</strong> &middot;
+    Generated: {{ generated_at }} &middot;
+    Gate: <span class="{{ 'gate-pass' if gate.passed else 'gate-fail' }}">{{ "PASS" if gate.passed else "FAIL" }}</span>
+  </p>
+
+  <h2>Summary</h2>
+  <table>
+    <tr><th>Metric</th><th>Baseline</th><th>Current</th><th>Status</th></tr>
+    {% for row in summary_rows %}
+    <tr>
+      <td>{{ row.metric }}</td>
+      <td>{{ "%.4f"|format(row.baseline) if row.baseline is not none else "-" }}</td>
+      <td>{{ "%.4f"|format(row.current) if row.current is not none else "-" }}</td>
+      <td class="{{ 'fail' if row.status == 'FAIL' else '' }}">{{ row.status }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  {% if gate.violations %}
+  <h2>Gate violations</h2>
+  <ul>
+    {% for v in gate.violations %}
+    <li><strong>{{ v.metric }}</strong>: baseline {{ "%.4f"|format(v.baseline) }} &rarr; current {{ "%.4f"|format(v.current) }}
+      (delta {{ "%.4f"|format(v.delta) }}, threshold {{ "%.4f"|format(v.threshold) }})</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <h2>Scenarios ({{ rows|length }})</h2>
+  <table>
+    <tr><th>id</th><th>intent</th><th>task completion</th><th>tool accuracy</th><th>groundedness</th><th>result</th></tr>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.scenario_id }}</td>
+      <td>{{ row.intent }}</td>
+      <td>{{ "%.2f"|format(row.task_completion.score) }}</td>
+      <td>{{ "%.2f"|format(row.tool_call_accuracy.score) }}</td>
+      <td>{{ "%.2f"|format(row.groundedness.score) if row.groundedness else "n/a" }}</td>
+      <td class="{{ 'pass' if row.passed else 'fail' }}">{{ "PASS" if row.passed else "FAIL" }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  {% for row in rows if not row.passed %}
+  <div class="scenario-fail">
+    <h3>FAILING: {{ row.scenario_id }} ({{ row.intent }})</h3>
+    <p><strong>Task completion checks:</strong></p>
+    <ul>
+      {% for check, ok in row.task_completion.details.items() %}
+      <li>{{ check }}: {{ ok }}</li>
+      {% endfor %}
+    </ul>
+    <p><strong>Transcript:</strong></p>
+    <ul>
+      {% for turn in row.transcript.turns %}
+      {% for call in turn.tool_calls %}
+      <li><code>{{ call.name }}({{ call.arguments }})</code> &rarr; <code>{{ call.response if call.response is not none else {"error": call.error} }}</code></li>
+      {% endfor %}
+      <li>agent: {{ turn.agent_message }}</li>
+      {% endfor %}
+    </ul>
+    {% if row.groundedness and not row.groundedness.passed %}
+    <p><strong>Judge verdict:</strong> {{ row.groundedness.details.verdict }} -- {{ row.groundedness.details.rationale }}</p>
+    {% endif %}
+  </div>
+  {% endfor %}
+</body>
+</html>

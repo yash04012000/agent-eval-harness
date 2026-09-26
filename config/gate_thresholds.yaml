@@ -1,0 +1,8 @@
+task_completion_rate:
+  max_drop: 0.05
+tool_call_accuracy_mean:
+  max_drop: 0.05
+groundedness_mean:
+  max_drop: 0.05
+cost_per_resolved_task:
+  max_increase_pct: 0.20

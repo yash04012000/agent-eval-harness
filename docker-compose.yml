@@ -1,0 +1,15 @@
+# Dev-only: local Jaeger for viewing traces produced with `--trace-exporter otlp`.
+# Not required for CI -- CI uses `--trace-exporter console` or omits tracing entirely.
+#
+# Usage:
+#   docker compose up -d
+#   agent-eval run --suite suites/support.yaml --trace-exporter otlp
+#   open http://localhost:16686
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.60
+    ports:
+      - "16686:16686"   # UI
+      - "4318:4318"     # OTLP HTTP receiver
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true

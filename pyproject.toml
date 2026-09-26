@@ -18,6 +18,8 @@ dependencies = [
     "jsonschema (>=4.26.0,<5.0.0)"
 ]
 
+[project.scripts]
+agent-eval = "cli:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -31,7 +33,11 @@ dev = [
 ]
 
 [tool.poetry]
-packages = [{ include = "harness" }, { include = "examples" }]
+packages = [
+    { include = "harness" },
+    { include = "examples" },
+    { include = "cli.py" },
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

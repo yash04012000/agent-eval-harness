@@ -71,6 +71,7 @@ class CachedModelClient:
         self._store = CacheStore(cache_dir)
         self._mode = mode
         self._on_usage = on_usage
+        self.last_cache_hit: bool | None = None  # read by harness.tracing's model_call span
 
     async def complete(
         self,
@@ -85,13 +86,16 @@ class CachedModelClient:
         if self._mode is not CacheMode.LIVE:
             cached = self._store.get(key)
             if cached is not None:
+                self.last_cache_hit = True
                 return cached
             if self._mode is CacheMode.REPLAY:
+                self.last_cache_hit = False
                 raise CacheMiss(
                     f"no cached response for key={key} model={model!r}; "
                     "run with --mode record first to populate the cache"
                 )
 
+        self.last_cache_hit = False
         response = await self._inner.complete(
             model, messages, tools=tools, temperature=temperature, **kwargs
         )
