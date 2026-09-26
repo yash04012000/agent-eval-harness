@@ -13,7 +13,10 @@ from harness.transcript import EndReason, Transcript, Turn
 
 
 def _build_user(
-    scenario: Scenario, model_client: ModelClient, default_simulator_model: str
+    scenario: Scenario,
+    model_client: ModelClient,
+    default_simulator_model: str,
+    seed: int | None = None,
 ) -> SimulatedUserProtocol:
     user_simulation = scenario.user_simulation
     if user_simulation.mode == "scripted":
@@ -23,6 +26,7 @@ def _build_user(
         model=user_simulation.simulator_model or default_simulator_model,
         max_turns=user_simulation.max_turns,
         model_client=model_client,
+        seed=seed,
     )
 
 
@@ -31,9 +35,14 @@ async def run_scenario(
     agent: AgentAdapter,
     model_client: ModelClient,
     default_simulator_model: str = "gpt-4o-mini",
+    seed: int | None = None,
 ) -> Transcript:
+    """`seed` only perturbs the simulated user's request content (see `SimulatedUser`) so repeated
+    recordings of the same scenario -- e.g. PRD 4's validation-set generation -- produce genuinely
+    distinct conversations instead of replaying the same cached first turn.
+    """
     messages: list[dict[str, Any]] = [{"role": "user", "content": scenario.opening_message}]
-    user = _build_user(scenario, model_client, default_simulator_model)
+    user = _build_user(scenario, model_client, default_simulator_model, seed)
     executor = ToolMockExecutor(scenario.tools, scenario.id)
     turns: list[Turn] = []
     end_reason: EndReason = "max_turns"

@@ -1,0 +1,88 @@
+id: returns_wrong_order_id
+intent: returns
+description: Customer gives an incorrect order id at first, then corrects it, for a $22 return refund.
+adversarial: false
+opening_message: I'd like to return the item from order R999.
+user_simulation:
+  mode: simulated
+  persona:
+    name: Nina Vasquez
+    goal: return the item from order R305 for a $22 refund (email nina@example.com), but first give the
+      wrong order id R999 and only correct it to R305 if the lookup fails or the assistant asks you to
+      double check
+    difficulty: wrong_ids
+  max_turns: 12
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "nina@example.com"}':
+      verified: true
+      account_id: ACC-10
+      owner_name: Nina Vasquez
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "R305"}':
+      status: delivered
+      total: 22.0
+      eta_days: 0
+      note: Return window open.
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  - lookup_order
+  - issue_refund
+  forbidden_tool_calls:
+  - escalate_to_human
+  must_mention:
+  - refund
+  must_not_mention: []

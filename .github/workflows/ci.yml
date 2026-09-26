@@ -14,3 +14,22 @@ jobs:
       - run: poetry install
       - run: poetry run ruff check .
       - run: poetry run pytest -q
+
+  eval-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e .
+      # suites/support_small.yaml (4 of the full 22 scenarios) is what's actually recorded in the
+      # committed cache right now -- suites/support.yaml is the target suite once the full live
+      # recording pass is done (tracked in docs/prds/00-overview.md); pointing this at the full
+      # suite before then would CacheMiss on every PR since replay mode never calls a live model.
+      - run: agent-eval run --suite suites/support_small.yaml --baseline baselines/v1.json --mode replay
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report
+          path: results/

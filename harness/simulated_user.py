@@ -54,13 +54,19 @@ _DIFFICULTY_INSTRUCTIONS: dict[Difficulty, str] = {
 }
 
 
-def _build_system_prompt(persona: Persona) -> str:
+def _build_system_prompt(persona: Persona, seed: int | None = None) -> str:
     traits = f"Traits: {', '.join(persona.traits)}\n" if persona.traits else ""
+    # The seed note only exists to vary the request content (and therefore the cache key) across
+    # repeated recordings of the same scenario -- e.g. PRD 4's 2-3-seeds-per-scenario validation
+    # set -- so each seed gets its own genuine model sample instead of replaying the same cached
+    # first turn. It carries no semantic instruction.
+    seed_note = f"(conversation variant seed: {seed})\n" if seed is not None else ""
     return (
         f"You are role-playing as a customer named {persona.name} contacting customer support.\n"
         f"Your goal: {persona.goal}\n"
         f"{traits}"
         f"Behavior: {_DIFFICULTY_INSTRUCTIONS[persona.difficulty]}\n"
+        f"{seed_note}"
         "You must respond using the `respond_as_user` tool on every turn. Set `ended=true` once "
         "your goal is resolved (end_reason='goal_achieved') or you want to give up "
         "(end_reason='gave_up'). Never break character or mention that you are an AI."
@@ -108,11 +114,19 @@ class ScriptedUser:
 class SimulatedUser:
     """LLM-backed user, role-playing the scenario's persona and difficulty behavior."""
 
-    def __init__(self, persona: Persona, model: str, max_turns: int, model_client: ModelClient):
+    def __init__(
+        self,
+        persona: Persona,
+        model: str,
+        max_turns: int,
+        model_client: ModelClient,
+        seed: int | None = None,
+    ):
         self._persona = persona
         self._model = model
         self._max_turns = max_turns
         self._client = model_client
+        self._seed = seed
         self._turns_taken = 0
 
     async def next(self, messages: list[dict[str, Any]]) -> UserTurnResult:
@@ -121,7 +135,7 @@ class SimulatedUser:
             return UserTurnResult(message=None, ended=True, end_reason="max_turns")
 
         request_messages = [
-            {"role": "system", "content": _build_system_prompt(self._persona)},
+            {"role": "system", "content": _build_system_prompt(self._persona, self._seed)},
             *_flip_roles(messages),
         ]
         response = await self._client.complete(
@@ -138,8 +152,18 @@ class SimulatedUser:
             return UserTurnResult(message=response.content, ended=False)
 
         args = response.tool_calls[0].arguments
+        # Small local models (this project's default judge/agent/user backend) don't reliably
+        # honor JSON Schema types even inside a forced tool call -- e.g. `"ended": "false"` as a
+        # string. Pydantic's own (non-strict) bool coercion handles "true"/"false" correctly, so
+        # the raw value is passed through rather than pre-cast with the plain `bool()` builtin,
+        # which would treat the *string* "false" as truthy. `end_reason` gets an explicit
+        # allowlist for the same reason (a stray "None"/"null" string must not become a literal
+        # value the `Transcript.end_reason` schema then rejects).
+        end_reason = args.get("end_reason")
+        if end_reason not in ("goal_achieved", "gave_up"):
+            end_reason = None
         return UserTurnResult(
             message=args.get("message"),
-            ended=bool(args.get("ended", False)),
-            end_reason=args.get("end_reason"),
+            ended=args.get("ended", False),
+            end_reason=end_reason,
         )

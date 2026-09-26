@@ -1,0 +1,83 @@
+id: order_status_basic
+intent: order_status
+description: Customer wants a simple status update on order O400.
+adversarial: false
+opening_message: Hi, can you tell me the status of order O400?
+user_simulation:
+  mode: simulated
+  persona:
+    name: Ellis Moore
+    goal: find out the shipping status of order O400
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "O400"}':
+      status: shipped
+      eta_days: 2
+      total: 55.0
+      note: In transit, on schedule.
+  default_response:
+    error: order_not_found
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses: {}
+  default_response:
+    verified: true
+    account_id: ACC-GENERIC
+    owner_name: Verified Customer
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_order
+  forbidden_tool_calls:
+  - issue_refund
+  - escalate_to_human
+  must_mention:
+  - shipped
+  must_not_mention: []

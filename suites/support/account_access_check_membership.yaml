@@ -1,0 +1,81 @@
+id: account_access_check_membership
+intent: account_access
+description: Customer wants to know their membership tier and loyalty points.
+adversarial: false
+opening_message: Hi, can you tell me what membership tier I'm on?
+user_simulation:
+  mode: simulated
+  persona:
+    name: Quinn Alvarez
+    goal: find out their membership tier and points balance, providing email quinn@example.com when asked
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "quinn@example.com"}':
+      verified: true
+      account_id: ACC-11
+      owner_name: Quinn Alvarez
+      tier: gold
+      points: 4200
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses: {}
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  forbidden_tool_calls:
+  - escalate_to_human
+  must_mention:
+  - gold
+  must_not_mention: []

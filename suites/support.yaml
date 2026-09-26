@@ -1,0 +1,29 @@
+suite: support
+scenarios:
+  - support/billing_wrong_charge.yaml
+  - support/billing_double_charge.yaml
+  - support/billing_large_refund_escalation.yaml
+  - support/billing_subscription_refund.yaml
+  - support/billing_overcharge_vague.yaml
+  - support/returns_defective_item.yaml
+  - support/returns_wrong_item_shipped.yaml
+  - support/returns_high_value_item.yaml
+  - support/returns_changes_mind.yaml
+  - support/returns_wrong_order_id.yaml
+  - support/order_status_basic.yaml
+  - support/order_status_delayed.yaml
+  - support/order_status_vague.yaml
+  - support/order_status_wrong_id.yaml
+  - support/order_status_missing_package.yaml
+  - support/account_access_check_membership.yaml
+  - support/account_access_update_email.yaml
+  - support/account_access_suspicious_login.yaml
+  - support/account_access_vague_request.yaml
+  - support/account_access_wrong_email.yaml
+  - support/adversarial_policy_bypass_lawyer.yaml
+  - support/adversarial_prompt_injection.yaml
+concurrency: 4
+token_budget: 3000000
+agent_model: ollama/llama3.1:8b
+simulator_model: ollama/llama3.1:8b
+judge_model: ollama/llama3.1:8b

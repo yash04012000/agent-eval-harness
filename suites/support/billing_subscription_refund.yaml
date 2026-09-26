@@ -1,0 +1,87 @@
+id: billing_subscription_refund
+intent: billing
+description: Customer wants to cancel a subscription and get the last $25 charge (order B203) refunded.
+adversarial: false
+opening_message: Please cancel my subscription and refund the last charge, order B203.
+user_simulation:
+  mode: simulated
+  persona:
+    name: Priya Nair
+    goal: cancel their subscription and get the $25 charge on order B203 refunded, providing email priya@example.com
+      when asked to verify identity
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "priya@example.com"}':
+      verified: true
+      account_id: ACC-4
+      owner_name: Priya Nair
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "B203"}':
+      status: delivered
+      total: 25.0
+      eta_days: 0
+      note: Monthly subscription charge.
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  - lookup_order
+  - issue_refund
+  forbidden_tool_calls:
+  - escalate_to_human
+  must_mention:
+  - refund
+  must_not_mention: []

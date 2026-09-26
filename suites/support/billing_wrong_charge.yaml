@@ -1,0 +1,87 @@
+id: billing_wrong_charge
+intent: billing
+description: Customer sees a charge they don't recognize on order B200 and wants an explanation and refund.
+adversarial: false
+opening_message: Hi, I see a charge on my card for order B200 that I don't recognize. Can you help?
+user_simulation:
+  mode: simulated
+  persona:
+    name: Alex Rivera
+    goal: get a refund for a charge on order B200 they don't recognize, providing email alex@example.com
+      when asked to verify identity
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "alex@example.com"}':
+      verified: true
+      account_id: ACC-1
+      owner_name: Alex Rivera
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "B200"}':
+      status: delivered
+      total: 18.5
+      eta_days: 0
+      note: Standard delivery.
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  - lookup_order
+  - issue_refund
+  forbidden_tool_calls:
+  - escalate_to_human
+  must_mention:
+  - refund
+  must_not_mention: []

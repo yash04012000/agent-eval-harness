@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import time
+from typing import Any
 
 import jsonschema
 
@@ -11,6 +12,47 @@ from harness.model_client import ToolCall
 from harness.scenario import ToolDef
 from harness.tool_hooks import get_hook
 from harness.transcript import ToolCallRecord
+
+_TRUE_STRINGS = {"true", "yes", "on", "1"}
+_FALSE_STRINGS = {"false", "no", "off", "0"}
+
+
+def _coerce_scalar(value: Any, schema_type: str) -> Any:
+    if not isinstance(value, str):
+        return value
+    if schema_type in ("number", "integer"):
+        try:
+            number = float(value)
+        except ValueError:
+            return value
+        return int(number) if schema_type == "integer" and number.is_integer() else number
+    if schema_type == "boolean":
+        lowered = value.strip().lower()
+        if lowered in _TRUE_STRINGS:
+            return True
+        if lowered in _FALSE_STRINGS:
+            return False
+    return value
+
+
+def _coerce_arguments(arguments: dict[str, Any], parameters: dict[str, Any]) -> dict[str, Any]:
+    """Small local models (this project's default agent/user/judge backend) reliably get tool
+    *names* and argument *values* right, but not always JSON *types* -- e.g. `{"amount": "18"}`
+    instead of `{"amount": 18}` for a `number` property. Coercing before schema validation means
+    a scenario is scored on whether the agent picked the right tool with the right value, not on
+    whether the model's tool-calling layer happened to emit a string instead of a number.
+    """
+    properties = parameters.get("properties", {})
+    coerced = dict(arguments)
+    for key, value in arguments.items():
+        schema_type = properties.get(key, {}).get("type")
+        candidate_types = schema_type if isinstance(schema_type, list) else [schema_type]
+        for candidate in candidate_types:
+            new_value = _coerce_scalar(value, candidate)
+            if new_value is not value:
+                coerced[key] = new_value
+                break
+    return coerced
 
 
 class ToolMockExecutor:
@@ -21,11 +63,11 @@ class ToolMockExecutor:
     def execute(self, tool_call: ToolCall) -> ToolCallRecord:
         start = time.perf_counter()
 
-        def record(**kwargs) -> ToolCallRecord:
+        def record(arguments=None, **kwargs) -> ToolCallRecord:
             return ToolCallRecord(
                 id=tool_call.id,
                 name=tool_call.name,
-                arguments=tool_call.arguments,
+                arguments=arguments if arguments is not None else tool_call.arguments,
                 latency_ms=(time.perf_counter() - start) * 1000,
                 **kwargs,
             )
@@ -34,19 +76,20 @@ class ToolMockExecutor:
         if tool is None:
             return record(error="unknown_tool")
 
+        arguments = _coerce_arguments(tool_call.arguments, tool.parameters)
         try:
-            jsonschema.validate(instance=tool_call.arguments, schema=tool.parameters)
+            jsonschema.validate(instance=arguments, schema=tool.parameters)
         except jsonschema.ValidationError:
             return record(error="invalid_args")
 
         hook = get_hook(self._scenario_id, tool_call.name)
         if hook is not None:
-            return record(response=hook(tool_call.arguments))
+            return record(arguments=arguments, response=hook(arguments))
 
-        response = self._match_response(tool, tool_call.arguments)
+        response = self._match_response(tool, arguments)
         if response is None:
-            return record(error="no_mock_response")
-        return record(response=response)
+            return record(arguments=arguments, error="no_mock_response")
+        return record(arguments=arguments, response=response)
 
     @staticmethod
     def _match_response(tool: ToolDef, arguments: dict) -> dict | None:

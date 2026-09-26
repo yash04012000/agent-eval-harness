@@ -1,0 +1,41 @@
+# Refreshes cache/baseline against a *hosted* model, using OPENAI_API_KEY -- this repo's default
+# suites (suites/support.yaml, suites/support_small.yaml) point every model role at a local Ollama
+# model instead, since GitHub-hosted runners have no GPU and would be impractically slow running
+# an 8B model on CPU. Running this workflow only makes sense against a suite manifest whose
+# `agent_model`/`simulator_model`/`judge_model` fields are set to a model OPENAI_API_KEY can reach
+# (LiteLLM routes by the model string's prefix, so an `ollama/...` suite would just fail to connect
+# here regardless of the secret). Pass such a suite explicitly via the `suite` input; there isn't
+# one committed by default since this project's demo path is the free local-model one.
+name: refresh-cache
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: "Suite manifest configured for a hosted model (see note above)"
+        required: true
+        default: suites/support.yaml
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e .
+      - run: agent-eval run --suite "${{ inputs.suite }}" --baseline baselines/v1.json --mode record --update-baseline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Refresh eval cache and baseline"
+          title: "Refresh eval cache and baseline"
+          body: >
+            Automated cache/baseline refresh from the `refresh-cache` workflow.
+            Review the diff in `cache/`, `baselines/v1.json`, and `results/` before merging --
+            this changes what the `eval-gate` job on every future PR compares against.
+          branch: refresh-cache
+          add-paths: |
+            cache/
+            baselines/
+            results/

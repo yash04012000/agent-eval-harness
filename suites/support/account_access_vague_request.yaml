@@ -1,0 +1,83 @@
+id: account_access_vague_request
+intent: account_access
+description: A vague customer wants generic 'help with my account' before clarifying they just want their
+  tier.
+adversarial: false
+opening_message: Hey, I need some help with my account.
+user_simulation:
+  mode: simulated
+  persona:
+    name: Vic Thompson
+    goal: eventually ask about your membership tier, but start vague and only clarify what you need when
+      asked directly
+    difficulty: vague
+  max_turns: 12
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "vic@example.com"}':
+      verified: true
+      account_id: ACC-14
+      owner_name: Vic Thompson
+      tier: silver
+      points: 1500
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses: {}
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  forbidden_tool_calls:
+  - escalate_to_human
+  must_mention:
+  - silver
+  must_not_mention: []

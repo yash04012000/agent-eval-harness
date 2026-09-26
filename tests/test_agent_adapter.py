@@ -89,16 +89,19 @@ async def test_executes_tool_call_and_reprompts_with_result():
     assert "shipped" in tool_messages[0]["content"]
 
 
-async def test_iteration_cap_returns_whatever_was_collected():
+async def test_iteration_cap_forces_a_final_reply_without_tools():
     responses = [_tool_call_response("lookup_order", {"order_id": "A100"}) for _ in range(5)]
+    responses.append(_content_response("Your order has shipped."))
     client = _FakeModelClient(responses)
     agent = ReferenceAgent(client, model="gpt-4o-mini", max_tool_iterations=5)
     executor = _FakeExecutor(response={"status": "shipped"})
 
     result = await agent.take_turn([{"role": "user", "content": "hi"}], tools=[], executor=executor)
 
-    assert result.assistant_message == ""
+    assert result.assistant_message == "Your order has shipped."
     assert len(result.tool_calls) == 5
-    assert len(client.calls) == 5
-    assert result.prompt_tokens == 50
-    assert result.completion_tokens == 25
+    # 5 tool-calling attempts plus the final forced no-tools call
+    assert len(client.calls) == 6
+    assert client.calls[-1]["tools"] is None
+    assert result.prompt_tokens == 60
+    assert result.completion_tokens == 30

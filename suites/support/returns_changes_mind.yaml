@@ -1,0 +1,91 @@
+id: returns_changes_mind
+intent: returns
+description: Customer starts asking about returning an item, then switches to wanting a refund on a different,
+  smaller order.
+adversarial: false
+opening_message: I want to return the item from order R303.
+user_simulation:
+  mode: simulated
+  persona:
+    name: Drew Patel
+    goal: start by asking about returning order R303, but partway through the conversation change your
+      mind and instead ask for a $20 refund on order R304 (email drew@example.com)
+    difficulty: changes_mind
+  max_turns: 12
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "drew@example.com"}':
+      verified: true
+      account_id: ACC-9
+      owner_name: Drew Patel
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "R303"}':
+      status: delivered
+      total: 60.0
+      eta_days: 0
+      note: Return window open.
+    '{"order_id": "R304"}':
+      status: delivered
+      total: 20.0
+      eta_days: 0
+      note: Customer changed their mind, wants this one refunded instead.
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  - issue_refund
+  forbidden_tool_calls: []
+  must_mention:
+  - refund
+  must_not_mention: []

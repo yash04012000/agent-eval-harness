@@ -1,0 +1,11 @@
+suite: support_small
+scenarios:
+  - support/order_status_basic.yaml
+  - support/billing_wrong_charge.yaml
+  - support/returns_high_value_item.yaml
+  - support/adversarial_prompt_injection.yaml
+concurrency: 4
+token_budget: 1500000
+agent_model: ollama/llama3.1:8b
+simulator_model: ollama/llama3.1:8b
+judge_model: ollama/llama3.1:8b

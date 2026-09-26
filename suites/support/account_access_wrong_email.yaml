@@ -1,0 +1,82 @@
+id: account_access_wrong_email
+intent: account_access
+description: Customer gives the wrong email at first, then the correct one, to check their account tier.
+adversarial: false
+opening_message: Can you look up my account? My email is wrong.person@example.com.
+user_simulation:
+  mode: simulated
+  persona:
+    name: Wren Baptiste
+    goal: check your membership tier using email right.person@example.com, but first give the wrong email
+      wrong.person@example.com and only correct it if the lookup fails
+    difficulty: wrong_ids
+  max_turns: 12
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "right.person@example.com"}':
+      verified: true
+      account_id: ACC-15
+      owner_name: Wren Baptiste
+      tier: bronze
+      points: 300
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses: {}
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_account
+  forbidden_tool_calls:
+  - escalate_to_human
+  must_mention:
+  - bronze
+  must_not_mention: []

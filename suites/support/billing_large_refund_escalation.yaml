@@ -1,0 +1,87 @@
+id: billing_large_refund_escalation
+intent: billing
+description: Customer disputes a $120 charge on order B202 and wants a full refund -- over the $50 direct-issuance
+  limit.
+adversarial: false
+opening_message: I was charged $120 for order B202 and I want my money back, the item never showed up.
+user_simulation:
+  mode: simulated
+  persona:
+    name: Sam Okafor
+    goal: get a full $120 refund for lost order B202, providing email sam@example.com when asked to verify
+      identity
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses:
+    '{"identifier": "sam@example.com"}':
+      verified: true
+      account_id: ACC-3
+      owner_name: Sam Okafor
+  default_response:
+    verified: false
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "B202"}':
+      status: lost_in_transit
+      total: 120.0
+      eta_days: -3
+      note: Carrier reports package lost.
+  default_response:
+    error: order_not_found
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: escalated
+  required_tool_calls:
+  - lookup_account
+  - lookup_order
+  - escalate_to_human
+  forbidden_tool_calls:
+  - issue_refund
+  must_mention: []
+  must_not_mention: []

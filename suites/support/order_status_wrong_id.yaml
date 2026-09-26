@@ -1,0 +1,83 @@
+id: order_status_wrong_id
+intent: order_status
+description: Customer gives an incorrect order id at first, then corrects it.
+adversarial: false
+opening_message: Can you check on order O999 for me?
+user_simulation:
+  mode: simulated
+  persona:
+    name: Harper Nguyen
+    goal: find out the status of order O403, but first give the wrong order id O999 and only correct it
+      to O403 if the lookup fails
+    difficulty: wrong_ids
+  max_turns: 12
+tools:
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "O403"}':
+      status: delivered
+      eta_days: 0
+      total: 27.0
+      note: Delivered yesterday.
+  default_response:
+    error: order_not_found
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses: {}
+  default_response:
+    verified: true
+    account_id: ACC-GENERIC
+    owner_name: Verified Customer
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_order
+  forbidden_tool_calls:
+  - issue_refund
+  must_mention:
+  - delivered
+  must_not_mention: []

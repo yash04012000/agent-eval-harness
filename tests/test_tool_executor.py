@@ -17,6 +17,22 @@ LOOKUP_TOOL = ToolDef(
     default_response={"error": "order_not_found"},
 )
 
+REFUND_TOOL = ToolDef(
+    name="issue_refund",
+    description="Issue a refund.",
+    parameters={
+        "type": "object",
+        "properties": {
+            "order_id": {"type": "string"},
+            "amount": {"type": "number"},
+            "confirmed": {"type": "boolean"},
+        },
+        "required": ["order_id", "amount"],
+    },
+    responses={},
+    default_response={"status": "issued"},
+)
+
 
 @pytest.fixture(autouse=True)
 def _clear_hooks():
@@ -75,3 +91,28 @@ def test_hook_is_scoped_to_its_scenario_id():
     executor = ToolMockExecutor([LOOKUP_TOOL], scenario_id="s1")
     record = executor.execute(_call("lookup_order", {"order_id": "A100"}))
     assert record.response == {"status": "shipped"}  # unaffected by the other scenario's hook
+
+
+def test_stringified_number_argument_is_coerced_not_rejected():
+    # Small local models often emit `"amount": "18"` instead of a JSON number for the same tool
+    # call -- the intent is unambiguous, so this shouldn't be scored as an invalid/hallucinated
+    # call.
+    executor = ToolMockExecutor([REFUND_TOOL], scenario_id="s1")
+    record = executor.execute(_call("issue_refund", {"order_id": "B1", "amount": "18"}))
+    assert record.error is None
+    assert record.arguments["amount"] == 18
+
+
+def test_stringified_boolean_argument_is_coerced():
+    executor = ToolMockExecutor([REFUND_TOOL], scenario_id="s1")
+    record = executor.execute(
+        _call("issue_refund", {"order_id": "B1", "amount": 18, "confirmed": "false"})
+    )
+    assert record.error is None
+    assert record.arguments["confirmed"] is False
+
+
+def test_non_numeric_string_still_fails_validation():
+    executor = ToolMockExecutor([REFUND_TOOL], scenario_id="s1")
+    record = executor.execute(_call("issue_refund", {"order_id": "B1", "amount": "a lot"}))
+    assert record.error == "invalid_args"

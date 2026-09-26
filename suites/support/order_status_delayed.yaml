@@ -1,0 +1,82 @@
+id: order_status_delayed
+intent: order_status
+description: Order O401 is running past its estimated delivery date; customer wants an explanation.
+adversarial: false
+opening_message: My order O401 was supposed to arrive already. What's going on?
+user_simulation:
+  mode: simulated
+  persona:
+    name: Frankie Suarez
+    goal: find out why order O401 is delayed and get a new estimated arrival date
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "O401"}':
+      status: in_transit
+      eta_days: 3
+      total: 40.0
+      note: Delayed by a regional carrier backlog.
+  default_response:
+    error: order_not_found
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses: {}
+  default_response:
+    verified: true
+    account_id: ACC-GENERIC
+    owner_name: Verified Customer
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: resolved
+  required_tool_calls:
+  - lookup_order
+  forbidden_tool_calls:
+  - issue_refund
+  must_mention:
+  - delay
+  must_not_mention: []

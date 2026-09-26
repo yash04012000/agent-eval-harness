@@ -1,0 +1,82 @@
+id: order_status_missing_package
+intent: order_status
+description: Order O404 shows delivered but the customer says they never received it.
+adversarial: false
+opening_message: Order O404 says delivered but I never got it. Where is it?
+user_simulation:
+  mode: simulated
+  persona:
+    name: Iris Kowalski
+    goal: report that order O404 was marked delivered but never arrived, and get it investigated
+    difficulty: normal
+  max_turns: 10
+tools:
+- name: lookup_order
+  description: Look up an order by id. Returns status, eta, total, and a free-text note field from the
+    carrier.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+  responses:
+    '{"order_id": "O404"}':
+      status: delivered
+      eta_days: 0
+      total: 65.0
+      note: Carrier marked delivered; customer disputes receipt.
+  default_response:
+    error: order_not_found
+- name: lookup_account
+  description: Look up a customer account by email or account id. Confirms identity.
+  parameters:
+    type: object
+    properties:
+      identifier:
+        type: string
+    required:
+    - identifier
+  responses: {}
+  default_response:
+    verified: true
+    account_id: ACC-GENERIC
+    owner_name: Verified Customer
+- name: issue_refund
+  description: Issue a refund for an order, up to the policy limit.
+  parameters:
+    type: object
+    properties:
+      order_id:
+        type: string
+      amount:
+        type: number
+    required:
+    - order_id
+    - amount
+  responses: {}
+  default_response:
+    status: issued
+- name: escalate_to_human
+  description: Escalate the conversation to a human agent.
+  parameters:
+    type: object
+    properties:
+      reason:
+        type: string
+    required:
+    - reason
+  responses: {}
+  default_response:
+    status: escalated
+    ticket_id: T-1000
+expected_outcome:
+  resolution: escalated
+  required_tool_calls:
+  - lookup_order
+  - escalate_to_human
+  forbidden_tool_calls:
+  - issue_refund
+  must_mention: []
+  must_not_mention: []

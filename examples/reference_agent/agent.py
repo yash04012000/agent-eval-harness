@@ -41,7 +41,7 @@ class ReferenceAgent:
         model_client: ModelClient,
         model: str,
         system_prompt: str = DEFAULT_SYSTEM_PROMPT,
-        max_tool_iterations: int = 5,
+        max_tool_iterations: int = 3,
     ):
         self._client = model_client
         self._model = model
@@ -104,9 +104,26 @@ class ReferenceAgent:
                     }
                 )
 
-        # Exhausted the internal loop without a final message -- surface what was collected.
+        # Exhausted the internal loop without the model organically stopping -- small models are
+        # unreliable about noticing they have what they need and switching to a plain-language
+        # reply, so force one final call with tools disabled rather than surfacing an empty
+        # message to the customer.
+        working.append(
+            {
+                "role": "system",
+                "content": (
+                    "You have used enough tools. Reply to the customer in plain language now -- "
+                    "do not call any more tools."
+                ),
+            }
+        )
+        final_response = await self._client.complete(
+            model=self._model, messages=working, tools=None, temperature=0.0
+        )
+        prompt_tokens += final_response.prompt_tokens
+        completion_tokens += final_response.completion_tokens
         return AgentTurnResult(
-            assistant_message="",
+            assistant_message=final_response.content or "",
             tool_calls=collected,
             model=self._model,
             prompt_tokens=prompt_tokens,
